@@ -82,3 +82,6 @@ Desktop.ini
 
 # Claude AI
 .claude/
+
+# Documentation (local only)
+docs/
