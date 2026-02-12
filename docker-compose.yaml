@@ -1,0 +1,181 @@
+version: '3.8'
+
+# BookCommunity 完整技术栈
+# PostgreSQL + Redis + RabbitMQ + Prometheus + Grafana
+
+services:
+  # ========================================
+  # 核心服务
+  # ========================================
+
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: bookcommunity-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: bookcommunity
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secure_password_2024}
+      POSTGRES_DB: bookcommunity
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookcommunity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bookcommunity-network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: bookcommunity-redis
+    restart: always
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass ${REDIS_PASSWORD:-redis_password_2024}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bookcommunity-network
+
+  # RabbitMQ 消息队列
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: bookcommunity-rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-bookcommunity}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-rabbitmq_password_2024}
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - bookcommunity-network
+
+  # ========================================
+  # 监控与可观测性
+  # ========================================
+
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: bookcommunity-prometheus
+    restart: always
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - bookcommunity-network
+
+  # Grafana 可视化
+  grafana:
+    image: grafana/grafana:latest
+    container_name: bookcommunity-grafana
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    networks:
+      - bookcommunity-network
+
+  # ========================================
+  # 管理工具（可选，生产环境可移除）
+  # ========================================
+
+  # pgAdmin - PostgreSQL 管理
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: bookcommunity-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@bookcommunity.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - bookcommunity-network
+    profiles:
+      - dev
+
+  # Redis Commander - Redis 管理
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: bookcommunity-redis-commander
+    restart: always
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:${REDIS_PASSWORD:-redis_password_2024}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - bookcommunity-network
+    profiles:
+      - dev
+
+# ========================================
+# 数据卷
+# ========================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+# ========================================
+# 网络
+# ========================================
+networks:
+  bookcommunity-network:
+    driver: bridge

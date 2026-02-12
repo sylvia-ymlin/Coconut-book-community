@@ -1,0 +1,69 @@
+# BookCommunity 配置文件示例
+# 复制此文件为 config.yaml 并修改相应配置
+
+# 数据库配置 (PostgreSQL - 推荐)
+database:
+  driver: postgres              # 数据库类型: postgres, mysql
+  username: bookcommunity       # 数据库用户名
+  password: your_secure_password # 数据库密码
+  host: localhost               # 数据库地址
+  port: 5432                    # PostgreSQL默认端口
+  dbname: bookcommunity         # 数据库名称
+  sslmode: disable              # SSL模式: disable, require, verify-full
+  timezone: Asia/Shanghai       # 时区
+  timeout: "10s"                # 连接超时
+  max_idle_conns: 10            # 最大空闲连接数
+  max_open_conns: 100           # 最大打开连接数
+  conn_max_lifetime: "1h"       # 连接最大生命周期
+
+# Redis缓存配置
+redis:
+  enabled: true                 # 是否启用Redis（false时使用内存缓存）
+  host: localhost               # Redis地址
+  port: 6379                    # Redis端口
+  password: dev_redis_2024      # Redis密码（留空表示无密码）
+  db: 0                         # Redis数据库索引（0-15）
+  pool_size: 100                # 最大连接数
+  min_idle_conns: 10            # 最小空闲连接数
+  max_retries: 3                # 最大重试次数
+  default_expiration: "1h"      # 默认过期时间
+
+# 日志配置
+log:
+  path: ./logs
+  panic_log_name: panic.log
+  level: debug  # trace,debug,info,warn,error,fatal,panic
+
+# JWT配置
+jwt_sign_key_hex: "0123456789abcdef0123456789abcdef"  # 32字符，替换为随机值
+jwt_secret_hex: "fedcba9876543210fedcba9876543210"    # 32字符，替换为随机值
+
+# 服务器端口
+server_port: "8080"
+
+# 视频配置（暂时保留，未来可能改为图书封面）
+vedio:
+  base_path: ./data/videos
+  url_prefix: /static
+  domain: http://localhost:8080
+
+# 推荐系统配置（预留）
+recommendation:
+  enabled: false  # 是否启用真实推荐系统
+  api_url: "http://localhost:6006"  # Python推荐API地址（预留）
+  timeout: "3s"
+  mock:
+    enabled: true  # 使用mock数据
+
+# ========================================
+# 兼容旧配置（已弃用，请使用 database 配置）
+# ========================================
+# mysql:
+#   username: root
+#   password: your_password
+#   host: localhost
+#   port: 3306
+#   dbname: bookcommunity
+#   timeout: "10s"
+#   max_idle_conns: 10
+#   max_open_conns: 100
