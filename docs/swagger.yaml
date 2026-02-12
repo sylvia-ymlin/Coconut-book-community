@@ -1,0 +1,191 @@
+basePath: /douyin
+definitions:
+  response.CommonResponse:
+    properties:
+      status_code:
+        type: integer
+      status_msg:
+        type: string
+    type: object
+  response.GetUserInfoResponse:
+    properties:
+      status_code:
+        type: integer
+      status_msg:
+        type: string
+      user:
+        $ref: '#/definitions/response.User'
+    type: object
+  response.RegisterResponse:
+    properties:
+      status_code:
+        type: integer
+      status_msg:
+        type: string
+      token:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  response.User:
+    properties:
+      follow_count:
+        type: integer
+      follower_count:
+        type: integer
+      id:
+        type: integer
+      is_follow:
+        type: boolean
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@bookcommunity.io
+    name: API Support
+    url: https://github.com/sylvia-ymlin/Coconut-book-community
+  description: |-
+    High-performance book community backend API built with Go
+
+    Tech Stack:
+    - Backend: Go 1.20 + Gin + GORM
+    - Database: PostgreSQL 15
+    - Cache: Redis 7.0 + In-Memory LRU
+    - Message Queue: RabbitMQ 3.12
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: BookCommunity API
+  version: "1.0"
+paths:
+  /recommend:
+    get:
+      consumes:
+      - application/json
+      description: Get personalized book recommendations for the authenticated user
+      parameters:
+      - default: 10
+        description: Number of recommendations
+        in: query
+        name: top_k
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get personalized book recommendations
+      tags:
+      - Recommendation
+  /search:
+    get:
+      consumes:
+      - application/json
+      description: Search books by keyword with semantic search
+      parameters:
+      - description: Search keyword
+        in: query
+        name: q
+        required: true
+        type: string
+      - default: 10
+        description: Number of results
+        in: query
+        name: top_k
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search books
+      tags:
+      - Recommendation
+  /user/:
+    get:
+      consumes:
+      - application/json
+      description: Get user information by user ID
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      - description: Optional token for auth
+        in: query
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetUserInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user information
+      tags:
+      - User
+  /user/register/:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with username and password
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: Register a new user
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

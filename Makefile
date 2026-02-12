@@ -89,4 +89,10 @@ deps-update: ## Update dependencies
 	go get -u ./...
 	go mod tidy
 
+swagger: ## Generate Swagger documentation
+	swag init -g main.go --output ./docs
+
+swagger-fmt: ## Format Swagger comments
+	swag fmt
+
 .DEFAULT_GOAL := help

@@ -11,7 +11,16 @@ import (
 var recommendService = services.NewRecommendationService()
 
 // GetRecommendationsHandler 获取个性化推荐
-// GET /api/v1/recommend?token=xxx&top_k=10
+// @Summary Get personalized book recommendations
+// @Description Get personalized book recommendations for the authenticated user
+// @Tags Recommendation
+// @Accept json
+// @Produce json
+// @Param top_k query int false "Number of recommendations" default(10)
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /recommend [get]
 func GetRecommendationsHandler(c *gin.Context) {
 	// 从JWT中间件获取用户ID
 	userID := c.GetUint("userID")
@@ -54,7 +63,16 @@ func GetRecommendationsHandler(c *gin.Context) {
 }
 
 // SearchBooksHandler 搜索图书
-// GET /api/v1/search?q=计算机&top_k=10
+// @Summary Search books
+// @Description Search books by keyword with semantic search
+// @Tags Recommendation
+// @Accept json
+// @Produce json
+// @Param q query string true "Search keyword"
+// @Param top_k query int false "Number of results" default(10)
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /search [get]
 func SearchBooksHandler(c *gin.Context) {
 	// 获取查询关键词
 	query := c.Query("q")

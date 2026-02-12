@@ -20,6 +20,17 @@ const (
 	RegisterUserDTO_Password = "password"
 )
 
+// UserRegisterHandler registers a new user
+// @Summary Register a new user
+// @Description Register a new user with username and password
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param username query string true "Username"
+// @Param password query string true "Password"
+// @Success 200 {object} response.RegisterResponse
+// @Failure 400 {object} response.CommonResponse
+// @Router /user/register/ [post]
 func UserRegisterHandler(c *gin.Context) {
 	var registerRequest RegisterUserDTO
 	var res response.RegisterResponse

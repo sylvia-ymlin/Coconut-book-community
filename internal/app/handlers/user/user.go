@@ -20,6 +20,17 @@ const (
 )
 
 // GetUserInfoHandler 获取用户信息
+// @Summary Get user information
+// @Description Get user information by user ID
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user_id query int true "User ID"
+// @Param token query string false "Optional token for auth"
+// @Security BearerAuth
+// @Success 200 {object} response.GetUserInfoResponse
+// @Failure 400 {object} response.CommonResponse
+// @Router /user/ [get]
 func GetUserInfoHandler(c *gin.Context) {
 	var getUserInfoDTO GetUserInfoDTO
 	var res response.GetUserInfoResponse
