@@ -1,0 +1,93 @@
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - errcheck      # Check for unchecked errors
+    - gosimple      # Simplify code
+    - govet         # Vet examines Go source code
+    - ineffassign   # Detect ineffectual assignments
+    - staticcheck   # Static analysis
+    - unused        # Check for unused code
+    - gofmt         # Check formatting
+    - goimports     # Check imports
+    - misspell      # Check spelling
+    - revive        # Replacement for golint
+    - gocritic      # Opinionated Go linter
+    - gosec         # Security issues
+    - unconvert     # Remove unnecessary type conversions
+    - dupl          # Code clone detection
+    - prealloc      # Find slice declarations with pre-allocation
+    - exportloopref # Check for pointers to loop variables
+    - nolintlint    # Reports ill-formed nolint directives
+
+linters-settings:
+  errcheck:
+    check-blank: true
+    check-type-assertions: true
+
+  govet:
+    check-shadowing: true
+    enable-all: true
+
+  gofmt:
+    simplify: true
+
+  goimports:
+    local-prefixes: github.com/sylvia-ymlin/Coconut-book-community
+
+  revive:
+    confidence: 0.8
+    rules:
+      - name: blank-imports
+      - name: context-as-argument
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+      - name: if-return
+      - name: increment-decrement
+      - name: var-naming
+      - name: package-comments
+      - name: range
+      - name: receiver-naming
+      - name: indent-error-flow
+      - name: errorf
+
+  gosec:
+    excludes:
+      - G104 # Audit errors not checked
+      - G307 # Deferring unsafe method "Close"
+
+  dupl:
+    threshold: 150
+
+issues:
+  exclude-rules:
+    # Exclude some linters from running on tests files
+    - path: _test\.go
+      linters:
+        - dupl
+        - gosec
+        - gocritic
+
+    # Exclude known false positives
+    - linters:
+        - staticcheck
+      text: "SA9003:"
+
+    # Ignore long lines in comments
+    - linters:
+        - revive
+      text: "line-length-limit"
+
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true

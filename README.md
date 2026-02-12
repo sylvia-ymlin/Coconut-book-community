@@ -1,5 +1,9 @@
 # BookCommunity
 
+[![CI](https://github.com/sylvia-ymlin/Coconut-book-community/workflows/CI%20Pipeline/badge.svg)](https://github.com/sylvia-ymlin/Coconut-book-community/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sylvia-ymlin/Coconut-book-community)](https://goreportcard.com/report/github.com/sylvia-ymlin/Coconut-book-community)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A high-performance book community backend built with Go.
 
 ## Tech Stack
