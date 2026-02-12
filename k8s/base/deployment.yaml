@@ -1,0 +1,160 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookcommunity
+  namespace: bookcommunity
+  labels:
+    app: bookcommunity
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bookcommunity
+  template:
+    metadata:
+      labels:
+        app: bookcommunity
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: bookcommunity
+        image: yourusername/bookcommunity:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        # 从 ConfigMap 读取配置
+        - name: SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: SERVER_PORT
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: LOG_LEVEL
+        
+        # PostgreSQL 配置
+        - name: DB_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: DB_DRIVER
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: DB_NAME
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: bookcommunity-secret
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookcommunity-secret
+              key: DB_PASSWORD
+        - name: DB_SSLMODE
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: DB_SSLMODE
+        
+        # Redis 配置
+        - name: REDIS_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: REDIS_ENABLED
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: bookcommunity-config
+              key: REDIS_PORT
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookcommunity-secret
+              key: REDIS_PASSWORD
+        
+        # JWT 密钥
+        - name: JWT_SIGN_KEY_HEX
+          valueFrom:
+            secretKeyRef:
+              name: bookcommunity-secret
+              key: JWT_SIGN_KEY_HEX
+        - name: JWT_SECRET_HEX
+          valueFrom:
+            secretKeyRef:
+              name: bookcommunity-secret
+              key: JWT_SECRET_HEX
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 15"]
+      
+      terminationGracePeriodSeconds: 30
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - bookcommunity
+              topologyKey: kubernetes.io/hostname

@@ -1,11 +1,11 @@
 package initiate
 
 import (
-	"github.com/yourusername/bookcommunity/config"
-	"github.com/yourusername/bookcommunity/internal/database"
-	"github.com/yourusername/bookcommunity/internal/msgQueue"
-	"github.com/yourusername/bookcommunity/internal/server"
-	"github.com/yourusername/bookcommunity/pkg/log"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/database"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/msgQueue"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/server"
+	"github.com/sylvia-ymlin/Coconut-book-community/pkg/log"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )

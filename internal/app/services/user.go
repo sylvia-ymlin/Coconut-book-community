@@ -3,10 +3,10 @@ package services
 import (
 	"errors"
 
-	"github.com/yourusername/bookcommunity/internal/app"
-	"github.com/yourusername/bookcommunity/internal/app/handlers/response"
-	"github.com/yourusername/bookcommunity/internal/app/models"
-	"github.com/yourusername/bookcommunity/internal/database"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/handlers/response"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/database"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )

@@ -71,7 +71,7 @@
 #### 步骤1: 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/bookcommunity.git
+git clone https://github.com/sylvia-ymlin/bookcommunity.git
 cd bookcommunity
 ```
 
@@ -1439,7 +1439,7 @@ Handler → Service → Database
 
 ```bash
 # 克隆项目
-git clone https://github.com/yourusername/bookcommunity.git
+git clone https://github.com/sylvia-ymlin/bookcommunity.git
 
 # 启动服务
 docker-compose up -d

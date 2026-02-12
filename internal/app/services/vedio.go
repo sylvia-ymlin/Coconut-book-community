@@ -5,15 +5,15 @@ import (
 	"math"
 	"strings"
 
-	"github.com/yourusername/bookcommunity/internal/app"
-	"github.com/yourusername/bookcommunity/internal/app/handlers/response"
-	"github.com/yourusername/bookcommunity/internal/app/models"
-	"github.com/yourusername/bookcommunity/internal/pkg/cache"
-	"github.com/yourusername/bookcommunity/utils"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/handlers/response"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/pkg/cache"
+	"github.com/sylvia-ymlin/Coconut-book-community/utils"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
-	"github.com/yourusername/bookcommunity/internal/database"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/database"
 )
 
 /*

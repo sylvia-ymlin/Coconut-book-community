@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookcommunity-service
+  namespace: bookcommunity
+  labels:
+    app: bookcommunity
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: bookcommunity
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookcommunity-ingress
+  namespace: bookcommunity
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: bookcommunity.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bookcommunity-service
+            port:
+              number: 80
+  # TLS 配置 (可选)
+  # tls:
+  # - hosts:
+  #   - bookcommunity.example.com
+  #   secretName: bookcommunity-tls

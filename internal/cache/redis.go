@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yourusername/bookcommunity/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
 	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 )

@@ -11,8 +11,8 @@ import (
 
 	"errors"
 
-	"github.com/yourusername/bookcommunity/config"
-	"github.com/yourusername/bookcommunity/utils"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/utils"
 	"gorm.io/gorm"
 )
 

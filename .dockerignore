@@ -1,0 +1,72 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+README.md
+LICENSE
+
+# Build outputs
+bookcommunity
+bookcommunity-*
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*_test.go
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Config (use ConfigMap in K8s)
+config/conf/config.yaml
+.env
+.env.local
+
+# Data
+data/
+*.db
+*.sqlite
+
+# Temp
+tmp/
+temp/
+*.tmp
+
+# Docker
+Dockerfile*
+docker-compose*.yaml
+.dockerignore
+
+# Kubernetes
+k8s/
+helm/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Claude
+.claude/
+
+# Backups
+*.bak
+*.backup

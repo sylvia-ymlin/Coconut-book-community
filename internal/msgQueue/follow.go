@@ -3,8 +3,8 @@ package msgQueue
 import (
 	"sync"
 
-	"github.com/yourusername/bookcommunity/internal/app/services"
-	"github.com/yourusername/bookcommunity/internal/pkg/messageQueue"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/services"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/pkg/messageQueue"
 	"github.com/sirupsen/logrus"
 )
 

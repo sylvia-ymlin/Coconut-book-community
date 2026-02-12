@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/yourusername/bookcommunity/pkg/log"
-	"github.com/yourusername/bookcommunity/utils"
+	"github.com/sylvia-ymlin/Coconut-book-community/pkg/log"
+	"github.com/sylvia-ymlin/Coconut-book-community/utils"
 	"github.com/spf13/viper"
 )
 

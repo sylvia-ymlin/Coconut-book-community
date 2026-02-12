@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/yourusername/bookcommunity/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
 	"github.com/gin-gonic/gin"
 )
 

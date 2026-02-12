@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yourusername/bookcommunity/config"
-	"github.com/yourusername/bookcommunity/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -5,14 +5,14 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/yourusername/bookcommunity/internal/app"
-	"github.com/yourusername/bookcommunity/internal/app/handlers/response"
-	"github.com/yourusername/bookcommunity/internal/app/models"
-	"github.com/yourusername/bookcommunity/internal/app/services"
-	"github.com/yourusername/bookcommunity/internal/database"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/handlers/response"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/services"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/database"
 	"github.com/sirupsen/logrus"
 
-	"github.com/yourusername/bookcommunity/internal/msgQueue"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/msgQueue"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,6 +1,6 @@
 package response
 
-import "github.com/yourusername/bookcommunity/internal/app/models"
+import "github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
 
 const CommentResFormat = "2006-01-02 15:04:05"
 

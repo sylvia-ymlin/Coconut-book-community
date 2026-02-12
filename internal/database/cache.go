@@ -3,8 +3,8 @@ package database
 import (
 	"sync"
 
-	"github.com/yourusername/bookcommunity/internal/app/models"
-	"github.com/yourusername/bookcommunity/internal/pkg/cache"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/pkg/cache"
 )
 
 // 青训营API不合理的地方：

@@ -53,7 +53,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/yourusername/bookcommunity.git
+git clone https://github.com/sylvia-ymlin/bookcommunity.git
 cd bookcommunity
 
 # 2. 启动完整技术栈（PostgreSQL + Redis + RabbitMQ + 监控）
@@ -376,8 +376,8 @@ BookCommunity - 图书社区后端平台
 
 ## 📞 联系方式
 
-- 项目主页：https://github.com/yourusername/bookcommunity
-- 问题反馈：https://github.com/yourusername/bookcommunity/issues
+- 项目主页：https://github.com/sylvia-ymlin/bookcommunity
+- 问题反馈：https://github.com/sylvia-ymlin/bookcommunity/issues
 - 邮箱：your.email@example.com
 
 ---

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/yourusername/bookcommunity/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
 	"gorm.io/gorm"
 )
 

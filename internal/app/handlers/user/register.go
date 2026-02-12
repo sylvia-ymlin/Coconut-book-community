@@ -3,9 +3,9 @@ package user
 import (
 	"net/http"
 
-	"github.com/yourusername/bookcommunity/internal/app"
-	"github.com/yourusername/bookcommunity/internal/app/handlers/response"
-	"github.com/yourusername/bookcommunity/internal/app/services"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/handlers/response"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/services"
 	"github.com/gin-gonic/gin"
 )
 

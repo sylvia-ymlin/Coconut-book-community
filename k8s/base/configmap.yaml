@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bookcommunity-config
+  namespace: bookcommunity
+data:
+  # 应用配置
+  SERVER_PORT: "8080"
+  LOG_LEVEL: "info"
+  
+  # PostgreSQL 配置
+  DB_DRIVER: "postgres"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "bookcommunity"
+  DB_SSLMODE: "disable"
+  DB_TIMEZONE: "Asia/Shanghai"
+  DB_MAX_OPEN_CONNS: "100"
+  DB_MAX_IDLE_CONNS: "10"
+  DB_CONN_MAX_LIFETIME: "1h"
+  
+  # Redis 配置
+  REDIS_ENABLED: "true"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  REDIS_POOL_SIZE: "100"
+  REDIS_MIN_IDLE_CONNS: "10"
+  REDIS_MAX_RETRIES: "3"
+  REDIS_DEFAULT_EXPIRATION: "1h"
+  
+  # RabbitMQ 配置
+  RABBITMQ_ENABLED: "true"
+  RABBITMQ_HOST: "rabbitmq-service"
+  RABBITMQ_PORT: "5672"
+  
+  # 推荐系统配置
+  RECOMMENDATION_ENABLED: "false"
+  RECOMMENDATION_MOCK_ENABLED: "true"

@@ -959,7 +959,7 @@ func HealthCheck(c *gin.Context) {
 
 ## 🔗 相关资源
 
-- [源码仓库](https://github.com/yourusername/bookcommunity)
+- [源码仓库](https://github.com/sylvia-ymlin/bookcommunity)
 - [API文档](https://api.bookcommunity.com/docs)
 - [部署文档](./DEPLOYMENT.md)
 

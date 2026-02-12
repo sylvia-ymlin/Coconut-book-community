@@ -1,6 +1,6 @@
 package response
 
-import "github.com/yourusername/bookcommunity/internal/app/models"
+import "github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
 
 type GetUserInfoResponse struct {
 	CommonResponse

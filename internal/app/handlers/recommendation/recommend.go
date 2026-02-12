@@ -3,7 +3,7 @@ package recommendation
 import (
 	"strconv"
 
-	"github.com/yourusername/bookcommunity/internal/app/services"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/services"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )

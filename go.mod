@@ -1,4 +1,4 @@
-module github.com/yourusername/bookcommunity
+module github.com/sylvia-ymlin/Coconut-book-community
 
 go 1.20
 

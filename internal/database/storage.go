@@ -3,8 +3,8 @@ package database
 import (
 	"sync"
 
-	"github.com/yourusername/bookcommunity/config"
-	"github.com/yourusername/bookcommunity/internal/pkg/storage"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/pkg/storage"
 )
 
 var videoSaver *storage.LocalDouyinVedioSaver

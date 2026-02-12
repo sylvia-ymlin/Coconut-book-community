@@ -1,6 +1,6 @@
 package main
 
-import "github.com/yourusername/bookcommunity/initiate"
+import "github.com/sylvia-ymlin/Coconut-book-community/initiate"
 
 func main() {
 	initiate.Run()

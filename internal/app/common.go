@@ -1,9 +1,9 @@
 package app
 
 import (
-	"github.com/yourusername/bookcommunity/config"
-	"github.com/yourusername/bookcommunity/internal/app/models"
-	"github.com/yourusername/bookcommunity/pkg/jwt"
+	"github.com/sylvia-ymlin/Coconut-book-community/config"
+	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/models"
+	"github.com/sylvia-ymlin/Coconut-book-community/pkg/jwt"
 	"github.com/sirupsen/logrus"
 )
 
