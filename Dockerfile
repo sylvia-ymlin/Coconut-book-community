@@ -1,5 +1,5 @@
 # Multi-stage build for smaller image size
-FROM golang:1.20-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 # 安装构建依赖
 RUN apk add --no-cache git make
