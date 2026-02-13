@@ -57,6 +57,17 @@ go run main.go
 - **Latency**: P99 < 50ms
 - **Cache Hit Rate**: 95%+
 
+## Frontend Integration
+
+**API Documentation**: http://localhost:8080/swagger/index.html
+
+**Quick Test**:
+```bash
+./examples/test_api.sh
+```
+
+See [FRONTEND_INTEGRATION_GUIDE.md](FRONTEND_INTEGRATION_GUIDE.md) for details.
+
 ## License
 
 MIT

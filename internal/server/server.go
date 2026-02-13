@@ -15,6 +15,7 @@ import (
 	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/handlers/user"
 	"github.com/sylvia-ymlin/Coconut-book-community/internal/app/middleware"
 	"github.com/sylvia-ymlin/Coconut-book-community/utils"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -54,6 +55,21 @@ func initDouyinRouter() *gin.Engine {
 	} else {
 		router.Use(gin.RecoveryWithWriter(writer))
 	}
+
+	// CORS配置 - 支持前后端联调
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{
+		"http://localhost:3000",
+		"http://localhost:5173",
+		"http://127.0.0.1:3000",
+		"http://127.0.0.1:5173",
+	}
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	corsConfig.ExposeHeaders = []string{"Content-Length"}
+	corsConfig.AllowCredentials = true
+	router.Use(cors.New(corsConfig))
+
 	router.Static(config.GetVedioConfig().UrlPrefix, config.GetVedioConfig().BasePath)
 
 	baseGroup := router.Group("/douyin")
