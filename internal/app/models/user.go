@@ -35,16 +35,15 @@ type UserModel struct {
 	//关注列表
 	Followers []UserModel `gorm:"many2many:user_follower;joinForeignKey:UserID;joinReferences:FollowerID"`
 	//粉丝列表
-	//Fans []UserModel `gorm:"many2many:user_fan;joinForeignKey:UserID;joinReferences:FanID"`
 	Fans []UserModel `gorm:"many2many:user_follower;joinForeignKey:FollowerID;joinReferences:UserID"`
-	//点赞列表
-	Likes []VideoModel `gorm:"many2many:user_like;joinForeignKey:UserID;joinReferences:VideoID"`
+	//点赞书评列表（原：点赞视频列表）
+	Likes []BookReviewModel `gorm:"many2many:user_like;joinForeignKey:UserID;joinReferences:ReviewID"`
 	//评论列表
 	Comments []CommentModel `gorm:"foreignKey:UserID"`
-	//收藏列表
-	Collections []VideoModel `gorm:"many2many:user_collection;joinForeignKey:UserID;joinReferences:VideoID"`
-	//视频列表
-	Videos []VideoModel `gorm:"foreignKey:AuthorID"`
+	//收藏书评列表（原：收藏视频列表）
+	Collections []BookReviewModel `gorm:"many2many:user_collection;joinForeignKey:UserID;joinReferences:ReviewID"`
+	//书评列表（原：视频列表）
+	Reviews []BookReviewModel `gorm:"foreignKey:AuthorID"`
 }
 
 func (u *UserModel) TableName() string {

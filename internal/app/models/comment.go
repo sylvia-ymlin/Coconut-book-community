@@ -9,21 +9,22 @@ import (
 const CommentModelTableName = "comment_models"
 
 const (
-	CommentModelTable_VideoID     = "video_id"
+	CommentModelTable_ReviewID    = "review_id"  // 改为 review_id
 	CommentModelTable_UserID      = "user_id"
 	CommentModelTable_Content     = "content"
 	CommentModelPreload_Commenter = "Commenter"
 )
 
-// 评论列表
+// CommentModel 评论模型
+// 用户可以对书评进行评论
 type CommentModel struct {
 	gorm.Model
-	VideoID uint
-	UserID  uint
-	Content string `gorm:"type:text"`
-	Video   VideoModel
+	ReviewID uint                 `gorm:"index;not null"` // 书评ID（原 VideoID）
+	UserID   uint                 `gorm:"index;not null"` // 评论者ID
+	Content  string               `gorm:"type:text;not null"` // 评论内容
+	Review   BookReviewModel      `gorm:"foreignKey:ReviewID"` // 关联的书评
 	// 使用前需确保里面有数据
-	Commenter UserModel `gorm:"foreignKey:UserID"`
+	Commenter UserModel `gorm:"foreignKey:UserID"` // 评论者信息
 }
 
 type CommentCacheModel struct {

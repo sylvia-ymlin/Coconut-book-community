@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookCommunity - 图书推荐 (Mock Demo)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .demo-note {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .book-info {
+            padding: 20px;
+        }
+
+        .book-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .book-rating {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .book-reason {
+            color: #888;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-info strong {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 BookCommunity</h1>
+            <p class="subtitle">发现你的下一本好书</p>
+        </header>
+
+        <div class="demo-note">
+            <strong>🎨 Mock Demo Mode</strong> - 这是一个演示版本，使用模拟数据。要连接真实后端，请启动 Docker 和 Go 服务器。
+        </div>
+
+        <div class="user-info">
+            👤 当前用户: <strong>Demo User</strong> (模拟登录)
+        </div>
+
+        <div class="search-section">
+            <h2 class="section-title">🔍 搜索图书</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索书名、作者、ISBN...">
+                <button onclick="searchBooks()">搜索</button>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+
+        <div class="search-section">
+            <h2 class="section-title">✨ 为你推荐</h2>
+            <div id="recommendations" class="books-grid">
+                <div class="loading">加载推荐中</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data
+        const mockBooks = [
+            {
+                isbn: "9787111544937",
+                title: "深入理解计算机系统",
+                author: "Randal E. Bryant",
+                cover_url: "https://images-na.ssl-images-amazon.com/images/I/51E0s5-ainL._SX397_BO1,204,203,200_.jpg",
+                rating: 9.7,
+                reason: "计算机科学经典著作，深入讲解计算机系统的本质",
+                publisher: "机械工业出版社",
+                pub_date: "2016-11"
+            },
+            {
+                isbn: "9787115428028",
+                title: "Python编程：从入门到实践",
+                author: "Eric Matthes",
+                cover_url: "https://images-na.ssl-images-amazon.com/images/I/51sZW87slbL._SX376_BO1,204,203,200_.jpg",
+                rating: 9.1,
+                reason: "最适合初学者的Python入门书籍",
+                publisher: "人民邮电出版社",
+                pub_date: "2016-07"
+            },
+            {
+                isbn: "9787121352171",
+                title: "设计模式之美",
+                author: "王争",
+                cover_url: "https://via.placeholder.com/250x300/667eea/ffffff?text=Design+Patterns",
+                rating: 9.3,
+                reason: "通过实际案例深入浅出讲解23种设计模式",
+                publisher: "电子工业出版社",
+                pub_date: "2019-03"
+            },
+            {
+                isbn: "9787115545466",
+                title: "Go语言核心编程",
+                author: "李文塔",
+                cover_url: "https://via.placeholder.com/250x300/764ba2/ffffff?text=Go+Programming",
+                rating: 8.9,
+                reason: "深入Go语言底层实现，适合进阶学习",
+                publisher: "人民邮电出版社",
+                pub_date: "2020-10"
+            },
+            {
+                isbn: "9787111641131",
+                title: "算法图解",
+                author: "Aditya Bhargava",
+                cover_url: "https://images-na.ssl-images-amazon.com/images/I/51ZcOKz9fCL._SX397_BO1,204,203,200_.jpg",
+                rating: 9.4,
+                reason: "用图解的方式轻松理解算法",
+                publisher: "人民邮电出版社",
+                pub_date: "2017-03"
+            },
+            {
+                isbn: "9787115404831",
+                title: "JavaScript高级程序设计",
+                author: "Nicholas C. Zakas",
+                cover_url: "https://via.placeholder.com/250x300/667eea/ffffff?text=JavaScript",
+                rating: 9.5,
+                reason: "前端开发必读经典，全面讲解JavaScript核心概念",
+                publisher: "人民邮电出版社",
+                pub_date: "2015-10"
+            },
+            {
+                isbn: "9787111617457",
+                title: "Docker容器与容器云",
+                author: "浙江大学SEL实验室",
+                cover_url: "https://via.placeholder.com/250x300/764ba2/ffffff?text=Docker",
+                rating: 8.7,
+                reason: "系统学习Docker和Kubernetes的最佳实践",
+                publisher: "机械工业出版社",
+                pub_date: "2019-01"
+            },
+            {
+                isbn: "9787115428844",
+                title: "数据库系统概念",
+                author: "Abraham Silberschatz",
+                cover_url: "https://via.placeholder.com/250x300/667eea/ffffff?text=Database",
+                rating: 9.2,
+                reason: "数据库领域的经典教材，理论与实践结合",
+                publisher: "机械工业出版社",
+                pub_date: "2012-03"
+            }
+        ];
+
+        // Display books
+        function displayBooks(books, containerId) {
+            const container = document.getElementById(containerId);
+
+            if (books.length === 0) {
+                container.innerHTML = '<div class="loading">暂无结果</div>';
+                return;
+            }
+
+            container.innerHTML = books.map(book => `
+                <div class="book-card" onclick="showBookDetail('${book.isbn}')">
+                    <img src="${book.cover_url}" alt="${book.title}" class="book-cover"
+                         onerror="this.src='https://via.placeholder.com/250x300/667eea/ffffff?text=No+Cover'">
+                    <div class="book-info">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">作者: ${book.author}</div>
+                        <div class="book-rating">⭐ ${book.rating}</div>
+                        <div class="book-reason">${book.reason}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load recommendations
+        function loadRecommendations() {
+            setTimeout(() => {
+                // Shuffle and take random 6 books
+                const shuffled = mockBooks.sort(() => 0.5 - Math.random());
+                const recommendations = shuffled.slice(0, 6);
+                displayBooks(recommendations, 'recommendations');
+            }, 500);
+        }
+
+        // Search books
+        function searchBooks() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+
+            if (!query.trim()) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+
+            document.getElementById('searchResults').innerHTML = '<div class="loading">搜索中</div>';
+
+            setTimeout(() => {
+                const results = mockBooks.filter(book =>
+                    book.title.toLowerCase().includes(query) ||
+                    book.author.toLowerCase().includes(query) ||
+                    book.isbn.includes(query)
+                );
+
+                if (results.length === 0) {
+                    document.getElementById('searchResults').innerHTML =
+                        '<div style="padding: 20px; text-align: center; color: #666;">未找到相关图书，试试其他关键词吧 🔍</div>';
+                } else {
+                    displayBooks(results, 'searchResults');
+                }
+            }, 300);
+        }
+
+        // Show book detail (mock)
+        function showBookDetail(isbn) {
+            const book = mockBooks.find(b => b.isbn === isbn);
+            if (book) {
+                alert(`📖 ${book.title}\n\n` +
+                      `作者: ${book.author}\n` +
+                      `评分: ${book.rating}\n` +
+                      `出版社: ${book.publisher}\n` +
+                      `出版日期: ${book.pub_date}\n\n` +
+                      `推荐理由: ${book.reason}\n\n` +
+                      `(在真实应用中，这里会跳转到详情页面)`);
+            }
+        }
+
+        // Enter key to search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchBooks();
+            }
+        });
+
+        // Load recommendations on page load
+        loadRecommendations();
+    </script>
+</body>
+</html>
