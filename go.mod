@@ -10,7 +10,7 @@ require (
 	github.com/prometheus/client_golang v1.19.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/redis/go-redis/v9 v9.5.1
-	github.com/sirupsen/logrus v1.9.2
+	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/files v1.0.1
