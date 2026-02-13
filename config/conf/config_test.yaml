@@ -1,0 +1,49 @@
+# Test configuration for BookCommunity
+
+database:
+  driver: postgres
+  host: localhost
+  port: 5432
+  dbname: bookcommunity_test
+  username: test_user
+  password: test_password
+  sslmode: disable
+  timezone: UTC
+  max_idle_conns: 5
+  max_open_conns: 10
+  conn_max_lifetime: 1h
+
+redis:
+  enabled: false  # Disable Redis for unit tests
+  host: localhost
+  port: 6379
+  password: ""
+  db: 1
+  pool_size: 10
+  min_idle_conns: 2
+  max_retries: 3
+  default_expiration: 5m
+
+rabbitmq:
+  enabled: false  # Disable RabbitMQ for unit tests
+  url: amqp://guest:guest@localhost:5672/
+  exchange: bookcommunity_test
+  queue: notifications_test
+
+log:
+  level: error  # Reduce logging in tests
+  path: ./test_logs
+  panic_log_name: panic_test.log
+
+jwt:
+  sign_key_hex: 7E6F6D6E6B6C6B6A6968676665646362
+  secret_hex: A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4
+
+server:
+  port: "8081"  # Use different port for tests
+  debug: false
+
+video:
+  base_path: ./test_uploads
+  url_prefix: static
+  domain: http://localhost:8081
